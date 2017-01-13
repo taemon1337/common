@@ -18,13 +18,24 @@
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li riot-tag="bootswatch-selector"></li>
+          <li data-is="bootswatch-selector"></li>
+          <li if={ user }>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <span class="fa fa-user"></span>
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li if={ logout }><a onclick={ logout } href="#">Sign Out</a></li>
+            </ul>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
 
   <script>
+    this.user = opts.user
+    this.logout = opts.logout
     this.tabs = typeof opts.tabs === 'object' ? opts.tabs : opts.tabs.split(',').map(function(t) { return { text: t.charAt(0).toUpperCase()+t.slice(1), href: t }});
   </script>
 </navbar>

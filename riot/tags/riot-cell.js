@@ -7,7 +7,11 @@ riot.tag('riot-cell','<span></span>', function(opts) {
     } else if(opts.fa) {
       this.root.className = "fa fa-"+opts.fa;
     } else if(opts.tag && opts.record) {
-      this.tags[opts.tag] = riot.mount(this.root, opts.tag, $.extend({}, { record: opts.record, field: opts.field }, opts.options))[0];
+      var tagopts = $.extend({}, { record: opts.record, field: opts.field }, opts.options);
+      var tag = riot.mount(this.root, opts.tag, tagopts)[0];
+      console.log("TAG: ", tag);
+      tag.parent = this.parent;
+      this.tags[opts.tag] = tag;
     } else if(opts.template && opts.record) {
       this.root.innerHTML = riot.util.tmpl(opts.template,opts.record)
     } else if(opts.field && opts.record) {

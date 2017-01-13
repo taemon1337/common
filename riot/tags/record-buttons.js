@@ -36,6 +36,7 @@
 
     this.onclick = function(e) {
       if(e.item.btn && e.item.btn.event) {
+        e.preventDefault()
         this.parent.parent.parent.trigger(e.item.btn.event, this.record)
       } else {
         return true

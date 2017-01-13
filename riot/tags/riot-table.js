@@ -4,7 +4,7 @@
   <table class="table table-striped table-bordered" style="font-size:80%;">
     <thead>
       <tr>
-        <th each={ field,cfg in _headers }>
+        <th each={ cfg,field in _headers }>
           <riot-cell text={ cfg.text || field.toUpperCase() } title={ cfg.title }></riot-cell>
         </th>
         <th if={ records.length && record_actions.length }>
@@ -16,8 +16,8 @@
 
     <tbody>
       <tr each={ record in records }>
-        <td each={ field,cfg in _headers }>
-          <riot-cell record={ record } field={ field } template={ cfg.template }></riot-cell>
+        <td each={ cfg,field in _headers }>
+          <riot-cell record={ record } field={ field } template={ cfg.template } tag={ cfg.tag } options={ cfg.options }></riot-cell>
         </td>
         <td if={ records.length && record_actions.length }>
           <record-actions actions={ parent.record_actions } record={ record }></record-actions>

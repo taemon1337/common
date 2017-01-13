@@ -7,7 +7,7 @@
       return new Bootswatch(opts);
     }
 
-    this.base = opts.base || "css/bootswatch/";
+    this.base = opts.base || "/common/bootswatch/3.3.7/";
     this.filename = opts.filename || "/bootstrap.min.css";
     this.theme = opts.theme || null;
     this.link = opts.link || null;
@@ -46,6 +46,6 @@
   };
 
   $.Bootswatch = Bootswatch;
-  $.bootswatch = $.Bootswatch({ base: "/common/css/bootswatch/" });
+  $.bootswatch = $.Bootswatch();
   $.bootswatch.start(sessionStorage.getItem("bootswatch-theme"));
 })($);

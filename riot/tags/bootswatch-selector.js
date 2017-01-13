@@ -13,6 +13,7 @@
     this.themes = opts.themes || $.bootswatch.themes
 
     this.setTheme = function(e) {
+      e.preventDefault()
       $.bootswatch.setTheme(e.item.theme)
     }
   </script>
