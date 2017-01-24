@@ -1,13 +1,17 @@
-<json-tree-cell>
-  <span>
+<form-tree-cell>
+  <span class="control-label">
     <span if={ parent.type === 'object' } onclick={ parent.show } class="fa fa-{ parent.hidden ? 'caret-right' : 'caret-up' } pointer"></span>
-    <span hide={ !editing }>
-      <input class="input-sm" onfocusout={ change } type="text" name={ field } value={ object } style="width:{ (object.length*8) }px">
-    </span>
-    <span ondblclick={ edit } hide={ editing }>{ object }{ is_a_key ? ':' : '' }</span>
-    <span onclick={ addChild } if={ parent.type === 'object' } style="cursor:pointer;" title="Add Element">+</span>
 
-    <span onclick={ remove } title="Remove Element" class="x text-danger hidden pointer">&times;</span>
+    <span class="wrapper">
+      <span onclick={ addChild } class="hover hidden text-success" if={ parent.type === 'object' } style="cursor:pointer;" title="Add Child">+</span>
+      <b show={ is_a_key && !editing } ondblclick={ edit }>{ object }:</b>
+
+      <span show={ editing || !is_a_key }>
+        <input class="form-control input-sm" onfocusout={ change } type="text" name={ field } value={ object }>
+      </span>
+      <span onclick={ remove } title="Remove" class="hover text-danger hidden pointer">&times;</span>
+    </span>
+
   </span>
 
   <style>
@@ -45,7 +49,7 @@
     self.remove = function(e) {
       var a = confirm("Are you sure you want to remove " + self.field)
       if(a) {
-        self.parent.parent.trigger("remove:child", { field: self.field })
+        self.parent.trigger("remove:child", { field: self.field })
       }
     }
 
@@ -57,14 +61,15 @@
 
     self.on('mount', function() {
       if(self.is_a_key) {
-        $(self.root.firstChild).hover(function() {
-          $(self.root.firstChild).css('border','1px solid red')
-          $(self.root.firstChild).find(".x").removeClass("hidden")
+        var el = $(this.root).find(".wrapper")
+        $(el).hover(function() {
+          $(el).css('border','1px solid red')
+          $(el).find(".hover").removeClass("hidden")
         }, function() {
-          $(self.root.firstChild).css('border','none')
-          $(self.root.firstChild).find(".x").addClass("hidden")
+          $(el).css('border','none')
+          $(el).find(".hover").addClass("hidden")
         })
       }
     })
   </script>
-</json-tree-cell>
+</form-tree-cell>

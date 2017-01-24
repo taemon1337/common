@@ -1,11 +1,20 @@
-<json-tree>
-  <json-tree-cell field={ field } object={ field } is_a_key={ true }></json-tree-cell>
-  <json-tree-cell if={ type !== 'object' } field={ field } object={ object }></json-tree-cell>
-  <ul if={ type === 'object' && !hidden }>
-    <li each={ v,k in object }>
-      <json-tree field={ k } object={ v }></json-tree>
-    </li>
-  </ul> 
+<form-tree>
+  <div class="form-horizontal">
+    <div class="form-group">
+      <div class="col-xs-2">
+        <label data-is="form-tree-cell" class="control-label" field={ field } object={ field } is_a_key={ true }></label>
+      </div>
+      <div class="col-xs-10">
+        <span data-is="form-tree-cell" if={ type !== 'object' } field={ field } object={ object }></span>
+        <div if={ type === 'object' }>
+          <br/>
+          <div show={ !hidden } each={ v,k in object }>
+            <div data-is="form-tree" field={ k } object={ v }></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
     var self = this
@@ -20,8 +29,8 @@
 
     self.on("add:child", function(data) {
       if(self.field == data.field) {
+        console.log('adding child to ' + self.field, data)
         self.object[data.key] = data.key
-        self.update()
         self.parent.trigger("tree:change", { field: self.field, object: self.object, is_new: true })
       }
     })
@@ -38,25 +47,25 @@
       }
     })
 
-
     self.on('cell:change', function(data) {
       console.log("cell change: ",  self.field, self.object, data)
       self.cell_update(data)
-      self.update()
       self.parent.trigger("tree:change", { field: self.field, object: self.object, field_was: data.field })
     })
 
     self.on('tree:change', function(data) {
       console.log("tree change: ", self.field, self.object, data)
-      if(data.field_was) {
-        delete self.object[data.field_was]
-        self.object[data.field] = data.object
+      if(self.type === 'object') {
+        if(data.field_was) {
+          delete self.object[data.field_was]
+          self.object[data.field] = data.object
+        } else if(data.is_new) {
+          self.object[data.field] = data.object
+        }
+      } else {
+        console.log('TYPE: ', self.type)
       }
-      if(data.is_new) {
-        self.object[data.field] = data.object
-      }
-      self.type = typeof(self.object)
-      self.update()
+
       self.parent.trigger("tree:change", { field: self.field, object: self.object })
     })
 
@@ -80,4 +89,4 @@
       self.type = typeof(self.object)
     }
   </script>
-</json-tree>
+</form-tree>

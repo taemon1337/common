@@ -1,5 +1,5 @@
 <select-option>
-  <select onchange={ select } class="form-control input-sm">
+  <select name={ field } onchange={ select } class="form-control input-sm">
     <option class="form-control" if={ default }>{ default }</option>
     <option class="form-control" each={ rec in records } value={ rec[parent.option_value] } selected={ rec[parent.option_value] === value ? 'selected' : '' }>{ rec[parent.option_text] }</option>
   </select>

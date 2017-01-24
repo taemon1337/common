@@ -7,7 +7,7 @@
     var title = opts.title || "";
     var body = opts.body || "";
     var html = opts.html || "";
-    var timeout = opts.timeout || 5000;
+    var timeout = opts.timeout || 3000;
 
     this.el = $(opts.el || "<span>");
     this.el.addClass("alert alert-dismissable fade in alert-"+color);
