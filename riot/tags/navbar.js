@@ -14,7 +14,7 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li each={ tab in tabs }>
-            <a class="{ '#/'+tab.href === window.location.hash ? 'active' : '' }" href="#/{ tab.href }">{ tab.text }</a>
+            <a class="{ '#/'+tab.href === window.location.hash ? 'active' : '' }" href="{ tab.url ? tab.href : '#/'+tab.href }">{ tab.text }</a>
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
