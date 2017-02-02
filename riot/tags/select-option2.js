@@ -5,17 +5,30 @@
   </select>
 
   <script>
+    var getCurrentValue = function(o) {
+      if(o.current) { return o.current }
+      if(o.record && o.field) { return o.record[o.field] }
+      return null
+    }
+
     var self = this
     this.default = opts.default
     this.field = opts.field
-    this.current = opts.current
+    this.selected = opts.selected
+    this.record = opts.record
+    this.current = getCurrentValue(opts)
 
     this.option_value = opts.option_value || "_id"
     this.option_text = opts.option_text || "_id"
     this.records = opts.records || []
 
     this.select = function(e) {
-      self.parent.parent.trigger('option:selected', { value: e.target.value, field: self.field })
+      if(self.parent && self.parent.parent && self.parent.parent.trigger) {
+        self.parent.parent.trigger('option:selected', { value: e.target.value, field: self.field })
+      }
+      if(self.selected) {
+        self.selected({ record: self.record, field: self.field, value: e.target.value })
+      }
     }
 
     this.on('options:loaded', function(records) {

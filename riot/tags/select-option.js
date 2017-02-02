@@ -17,11 +17,13 @@
 
     this.select = function(e) {
       self.record[self.field] = e.target.value
-      self.parent.trigger('option:selected', {
-        record: self.record,
-        field: self.field,
-        value: e.target.value
-      })
+      if(self.parent && self.parent.trigger) {
+        self.parent.trigger('option:selected', {
+          record: self.record,
+          field: self.field,
+          value: e.target.value
+        })
+      }
     }
 
     this.on('options:loaded', function(records) {

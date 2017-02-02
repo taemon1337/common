@@ -1,6 +1,6 @@
 <record-buttons>
   <div>
-    <a each={ btn in buttons } onclick={ onclick } href={ href(btn) } title={ btn.text } class="icon icon-{ size } text-{ color }">
+    <a each={ btn in buttons } onclick={ onclick } href={ href(btn) } title={ btn.text } class="icon icon-{ size } text-{ color }" data-event={ btn.event }>
       <span if={ btn.text && !btn.glyph && !btn.fa }>{ btn.text }</span>
       <span if={ btn.glyph } class="glyphicon glyphicon-{ btn.glyph }"></span>
       <span if={ btn.fa } class="fa fa-{ btn.fa }"></span>
@@ -34,7 +34,7 @@
     this.color = opts.color || "primary"
     this.size = opts.size || "sm"
 
-    this.onclick = function(e) {
+    this.onclick = opts.onclick || function(e) {
       if(e.item.btn && e.item.btn.event) {
         e.preventDefault()
         this.parent.parent.parent.trigger(e.item.btn.event, this.record)
