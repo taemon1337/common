@@ -17,6 +17,8 @@
     var parse = function(o) {
       if(o.value) {
         return o.value
+      } else if(o.riotValue) {
+        return o.riotValue
       } else if(o.record && o.field) {
         return o.record[o.field]
       } else {

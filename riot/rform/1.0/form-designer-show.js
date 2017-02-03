@@ -9,13 +9,13 @@
     <div each={ child in section.children }>
       <div class="col-xs-{ (12/(child.columns || 1)) }">
         <div each={ component in getComponents(child.name) } class="form-group">
-          <span onclick={ showInfo } class="pull-right fa fa-info-circle"></span>
-          <form-component record={ record } field={ component.field } columns={ cols(component,record,'left') || 3 } tag={{ label: component.label, editable: false }}></form-component>
+          <span if={ info } onclick={ showInfo } class="pull-right fa fa-info-circle"></span>
+          <form-component title={ component.field } record={ record } field={ component.field } columns={ cols(component,record,'left') || 3 } tag={{ label: component.label, editable: false }}></form-component>
           <form-component record={ record } field={ component.field } columns={ cols(component,record,'center') || 6 } tag={ component.tag }></form-component>
           <form-component record={ record } field={ component.field } columns={ cols(component,record,'right') || 3 } tag={{ html: component.help || "" }}></form-component>
         </div>
       </div>
-      <form-designer-show record={ record } is_row={ parent.is_root } section={ child }></form-designer-show-section>
+      <form-designer-show info={ info } record={ record } is_row={ parent.is_root } section={ child }></form-designer-show-section>
     </div>
   </div>
 
@@ -27,6 +27,7 @@
     self.is_row = opts.is_row
     self.section = opts.section
     self.components = opts.components || self.parent.components
+    self.info = opts.info || false
 
     self.getComponents = function(name) {
       return self.components.filter(function(cmpt) { return cmpt.layout === name })

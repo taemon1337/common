@@ -5,6 +5,8 @@
     var parse = function(o) {
       if(o.value) {
         return o.value
+      } else if(o.riotValue) {
+        return o.riotValue
       } else if(o.record && o.field) {
         return o.record[o.field]
       } else {
@@ -14,12 +16,13 @@
 
     self.record = opts.record
     self.field = opts.field
-    self.value = opts.parse ? opts.parse(opts) : parse(opts)
+    self.value = parse(opts)
 
     self.changed = function(e) {
-      if(opts.onchange) {
-        opts.onchange(e, { record: self.record, field: self.field, value: e.target.value })
-      }
+      self.value = e.target.value
+      self.record[self.field] = self.value
+      $(self.record).trigger('change')
+      self.update()
     }
 
     self.on('mount', function() {
