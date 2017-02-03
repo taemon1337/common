@@ -1,7 +1,9 @@
 function Popup(opts) {
   opts = opts || {}
   var title = opts.title || "";
-  var body = $(opts.body || "<textarea class='form-control' placeholder='"+(opts.placeholder || 'enter message...')+"' rows='4'></textarea>");
+  var body = $(opts.body || "<textarea class='form-control' placeholder='"+(opts.placeholder || 'enter message...')+"' rows='"+(opts.rows || 4)+"'></textarea>");
+
+  if(opts.content) { body.html(opts.content) }
 
   var modal = $("<div class='modal fade'><div class='modal-dialog'><div class='modal-content'><div class='modal-header'><button type='button' class='close btn-close'>&times;</button><h4 class='modal-title'></h4></div><div class='modal-body'></div><div class='modal-footer'><button type='button' class='btn btn-default btn-close'>Close</button><button type='button' class='btn btn-primary btn-save'>Save</button></div></div></div></div>");
 

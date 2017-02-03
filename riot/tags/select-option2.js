@@ -6,8 +6,11 @@
 
   <script>
     var getCurrentValue = function(o) {
+      if(o.parse) { return o.parse(o) }
       if(o.current) { return o.current }
-      if(o.record && o.field) { return o.record[o.field] }
+      if(o.record && o.field) {
+        return o.record[o.field]
+      }
       return null
     }
 

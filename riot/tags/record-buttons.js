@@ -35,7 +35,7 @@
     this.size = opts.size || "sm"
 
     this.onclick = opts.onclick || function(e) {
-      if(e.item.btn && e.item.btn.event) {
+      if(e.item.btn && e.item.btn.event && this.parent && this.parent.parent && this.parent.parent.parent && this.parent.parent.parent.trigger) {
         e.preventDefault()
         this.parent.parent.parent.trigger(e.item.btn.event, this.record)
       } else {

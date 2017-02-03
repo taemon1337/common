@@ -14,8 +14,10 @@
           </form>
         </div>
         <div class="col-xs-3">
-          Record:
-          <pre>{ JSON.stringify(record,null,2) }</pre>
+          <div>
+            Record:
+            <pre class="json">{ JSON.stringify(record,null,2) }</pre>
+          </div>
         </div>
       </div>
       <form-designer-raw if={ active === 'raw' }></form-designer-raw>
@@ -52,7 +54,8 @@
     })
 
     $(self.record).on('change', function() {
-      self.update()
+      var pre = $(self.root).find('pre.json')
+      $(pre).html(JSON.stringify(self.record,null,2))
     })
   </script>
 </form-designer>

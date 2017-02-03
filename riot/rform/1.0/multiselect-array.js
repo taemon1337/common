@@ -46,15 +46,15 @@
     self.option_value = opts.option_value
     self.values = parse(opts)
     self.fetch = opts.fetch
-    self.value = opts.value || []
+    self.value = opts.value || opts.riotValue || []
 
     self.selected = function(e) {
       e.preventDefault()
       var v = $(e.target).data('value')
       if(self.value.indexOf(v) === -1) {
         self.value.push(v)
-        self.update()
-        self.parent.trigger('change', { record: self.record, field: self.field, value: self.value })
+        self.record[self.field] = self.value
+        $(self.record).trigger('change')
       }
     }
 
@@ -62,8 +62,8 @@
       if(self.value.indexOf(e.target.value) === -1) {
         self.value.push(e.target.value)
         e.target.value = ''
-        self.update()
-        self.parent.trigger('change', { record: self.record, field: self.field, value: self.value })
+        self.record[self.field] = self.value
+        $(self.record).trigger('change')
       }
     }
 
@@ -71,8 +71,8 @@
       var i = self.value.indexOf( $(e.target).parent().text().trim() )
       if(i !== -1) {
         self.value.splice(i,1)
-        self.update()
-        self.parent.trigger('change', { record: self.record, field: self.field, value: self.value })
+        self.record[self.field] = self.value
+        $(self.record).trigger('change')
       }
     }
 

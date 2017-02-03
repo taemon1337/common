@@ -25,16 +25,30 @@
 
     self.available = opts.available || [
       {
-        name: "text",
+        name: "text-input",
         field: "field.name",
         label: "Text Label",
-        tag: { html: "<input class='form-control' type='text' placeholder='...'>" }
+        tag: {
+          name: "text-input",
+          options: {
+            attributes: {
+              placeholder: "..."
+            }
+          }
+        }
       },
       {
-        name: "textarea",
+        name: "text-area",
         field: "field.name",
         label: "Paragraph",
-        tag: { html: "<textarea class='form-control' rows='4' placeholder='...'></textarea>" }
+        tag: {
+          name: "text-area",
+          options: {
+            attributes: {
+              placeholder: "..."
+            }
+          }
+        }
       },
       {
         name: "multiselect-array",
@@ -45,7 +59,50 @@
             values: ["Item1","Item2","Item3"]
           }
         }
-      }
+      },
+      {
+        name: "table-input",
+        field: "items",
+        cols: {
+          left: 3,
+          center: 9,
+          right: "0 hidden"
+        },
+        tag: {
+          name: "table-input",
+          options: {
+            headers: [
+              {
+                field: "title",
+                label: "Title",
+                tag: {
+                  name: "text-input",
+                  options: {}
+                }
+              },
+              {
+                field: "desc",
+                label: "Description",
+                tag: {
+                  name: "text-input",
+                  options: {}
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        name: "text-areas",
+        field: "paragraphs",
+        label: "Paragraphs",
+        tag: {
+          name: "text-areas",
+          options: {
+            cols: { left: 2, center: 10, right: "0 hidden" }
+          }
+        }
+      },
     ]
 
     self.getSelectedOption = function(options, e) {
@@ -71,7 +128,6 @@
           name: "text-input",
           options: {
             onchange: function(e,a) {
-              console.log("CHANGED: ", a)
               a.record[a.field] = e.target.value
             }
           }
@@ -84,7 +140,6 @@
           name: "text-input",
           options: {
             onchange: function(e,a) {
-              console.log("CHANGED: ", a)
               a.record[a.field] = e.target.value
             }
           }
@@ -92,7 +147,25 @@
       },
       {
         field: "tag",
-        label: "Preview"
+        label: "Preview",
+        tag: {
+          name: "select-option",
+          options: {
+            records: self.available,
+            option_text: "name",
+            option_value: "name",
+            parse: function(o) {
+              return o.record[o.field].name
+            },
+            selected: function(a) {
+              self.available.forEach(function(cmpt) {
+                if(cmpt.name === a.value) {
+                  a.record[a.field] = cmpt.tag
+                }
+              })
+            }
+          }
+        }
       },
       {
         field: "layout",
@@ -112,6 +185,7 @@
     ]
 
     self.record_buttons = opts.record_buttons || [
+      { text: "Edit", fa: "pencil", event: "component:edit" },
       { text: "Delete", fa: "trash", event: "component:delete" }
     ]
 
@@ -121,17 +195,34 @@
       var c = self.getSelectedOption(self.available,e)
       $(e.target).val('')
       var cmpt = $.extend({}, c, { layout: self.names[0] })
-      console.log("adding: ", cmpt)
       self.parent.form.components.push(cmpt)
       self.parent.update()
     }
 
     self.on("component:delete", function(record, index) {
-      console.log("removing...", index, self.parent.form.components[index])
-      if(index) {
-        self.parent.form.components.splice(index,1)
-        self.parent.update()
-      }
+      self.parent.form.components.splice(index,1)
+      self.parent.update()
+    })
+
+    self.on('component:edit', function(record, index) {
+      var popup = Popup({
+        title: "Edit Component",
+        rows: 10,
+        content: JSON.stringify(record.tag,null,2)
+      })
+
+      $(popup).on('save', function(e,body) {
+        try {
+          var tmp = JSON.parse( body.value )
+          if(tmp) {
+            record.tag = tmp
+            self.update()
+          }
+        } catch(err) {
+          Alert({ status: "danger", title: "Invalid JSON", body: err })
+          self.trigger('component:edit', record, index)
+        }
+      })
     })
 
     self.show = function(e) {

@@ -71,7 +71,6 @@
     }
 
     self.on("remove:child", function(idx) {
-      console.log("REMOVING CHILD: ", idx)
       self.section.children.splice(idx, 1)
       self.parent.update()
     })

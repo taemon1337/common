@@ -1,5 +1,5 @@
 <riot-tag-table>
-  <table class="table">
+  <table class="table { opts.addclass }">
     <thead>
       <tr>
         <th each={ hdr in headers }>{ hdr.label || hdr.field.toUpperCase() }</th>
@@ -27,10 +27,10 @@
 
     self.findtag = function(record,header) {
       var f = header.field
-      if(record[f] && record[f].tag) {
-        return record[f].tag
-      } else if(header.tag) {
+      if(header.tag) {
         return header.tag
+      } else if(record[f] && record[f].tag) {
+        return record[f].tag
       } else if(record.tag) {
         return record.tag
       } else {
@@ -42,7 +42,9 @@
       e.preventDefault()
       var a = $(e.target).parent()
       var tr = $(e.target).parents('tr')
-      self.parent.trigger(a.data('event'), e.item.record, tr.data('index'))
+      if(e.item.record) {
+        self.parent.trigger(a.data('event'), e.item.record, tr.data('index'))
+      }
     }
   </script>
 </riot-tag-table>

@@ -1,15 +1,15 @@
-riot.tag('form-component', "<div></div>", function(opts) {
+riot.tag('form-component', "<span></span>", function(opts) {
   var self = this
   var currentTag = null
 
   self.record = opts.record || self.parent.record
   self.field = opts.field
-  self.value = opts.value
+  self.value = opts.value || opts.riotValue || self.record[self.field]
 
   self.onchange = function(e, a) {
-    if(a && a.value) {
-      self.record[self.field] = a.value
-    } else if(e.target.value) {
+    if(a) {
+      a.record[a.field] = a.value
+    } else if(e && e.target && e.target.value) {
       self.record[self.field] = e.target.value
     }
     $(self.record).trigger('change')
@@ -31,9 +31,6 @@ riot.tag('form-component', "<div></div>", function(opts) {
       } else {
         self.tags[tag.name] = riot.mount(self.root, tag.name, tagopts)
       }
-//      currentTag && currentTag.unmount(true)
-//      currentTag = riot.mount(self.root, tag.name, tagopts)[0];
-//      currentTag.parent = self.parent;
     } else if(tag.label) {
       currentTag && currentTag.remove()
       if(tag.editable) {
