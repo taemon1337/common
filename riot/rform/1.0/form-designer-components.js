@@ -155,7 +155,7 @@
             option_text: "name",
             option_value: "name",
             parse: function(o) {
-              return o.record[o.field].name
+              return o.record && o.field ? o.record[o.field].name : ""
             },
             selected: function(a) {
               self.available.forEach(function(cmpt) {
