@@ -17,7 +17,7 @@
     <tbody>
       <tr each={ record in records }>
         <td each={ cfg,field in _headers }>
-          <riot-cell record={ record } field={ field } template={ cfg.template } tag={ cfg.tag || record.tag } options={ cfg.options || record.options }></riot-cell>
+          <riot-cell record={ record } field={ field } template={ cfg.template } tag={ cfg.tag || record.tag } options={ cfg.options || record.options } render={ cfg.render }></riot-cell>
         </td>
         <td if={ records.length && record_actions.length }>
           <record-actions actions={ parent.record_actions } record={ record }></record-actions>

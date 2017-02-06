@@ -2,6 +2,8 @@ riot.tag('riot-cell','<span></span>', function(opts) {
   this.updateContent = function() {
     if(opts.text) {
       this.root.innerHTML = opts.text;
+    } else if(opts.render) {
+      this.root.innerHTML = opts.render(opts)
     } else if(opts.glyphicon) {
       this.root.className = "glyphicon glyphicon-"+opts.glyphicon;
     } else if(opts.fa) {
