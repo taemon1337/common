@@ -101,6 +101,7 @@
         $(icon).removeClass("fa-refresh").addClass("fa-spinner fa-spin");
         that.fetch(function(records) {
           if(records) {
+            console.log("FETCHED RECORDS: ", records)
             var r1 = records[0] || {}
             if(Object.keys(that._headers).length) {
               that.update({ records: records })
