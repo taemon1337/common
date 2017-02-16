@@ -100,11 +100,13 @@
         var icon = $(this.root).find(".fa-refresh")
         $(icon).removeClass("fa-refresh").addClass("fa-spinner fa-spin");
         that.fetch(function(records) {
-          var r1 = records[0] || {}
-          if(Object.keys(that._headers).length) {
-            that.update({ records: records })
-          } else {
-            that.update({ records: records, _headers: that.getHeaders(Object.keys(r1)) })
+          if(records) {
+            var r1 = records[0] || {}
+            if(Object.keys(that._headers).length) {
+              that.update({ records: records })
+            } else {
+              that.update({ records: records, _headers: that.getHeaders(Object.keys(r1)) })
+            }
           }
           $(icon).removeClass("fa-spinner fa-spin").addClass("fa-refresh");
         })

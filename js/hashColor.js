@@ -1,7 +1,9 @@
 function hashCode(str) {
   var hash = 0;
   for(var i=0; i<str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    var chr = str.charCodeAt(i);
+    hash = ((hash<<5)-hash)+chr;
+    hash = hash & hash;
   }
   return hash
 }
@@ -21,7 +23,11 @@ function inverseColor(hexcode) {
 }
 
 function hashColor(str) {
-  return intToRGB(hashCode(str));
+  if(window.XXH) {
+    return XXH.h32(str, 0xABCD).toString(16).slice(-6);
+  } else {
+    return intToRGB(hashCode(str));
+  }
 }
 
 function hashColorLabel(str) {
