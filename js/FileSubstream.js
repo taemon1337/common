@@ -15,7 +15,6 @@ function FileSubstream(file, substream, opts) {
   var readEventHandler = function(evt) {
     if(evt.target.error == null) {
       var buf = evt.target.result;
-      console.log(file.name,": ",Math.floor(offset/fileSize*100),"%");
       offset += buf.length;
       substream.write(buf);
     } else {
@@ -26,13 +25,11 @@ function FileSubstream(file, substream, opts) {
     }
 
     if(offset >= fileSize) {
-      console.log("Uploaded ", file.name);
       substream.end()
       return;
     }
     chunkReaderBlock(offset, chunkSize, file, readEventHandler); // do next chunk
   };
 
-  console.log("Streaming ", file.name);
   chunkReaderBlock(offset, chunkSize, file, readEventHandler); // start with 1st block
 }

@@ -1,6 +1,6 @@
 <record-buttons>
   <div>
-    <a each={ btn in buttons } onclick={ onclick } href={ href(btn) } title={ btn.text } class="icon icon-{ size } text-{ color }" data-event={ btn.event }>
+    <a each={ btn in buttons } onclick={ onclick } href={ href(btn) } target={ btn.target } title={ btn.text } class="icon icon-{ size } text-{ color }" data-event={ btn.event } download={ btn.download }>
       <span if={ btn.text && !btn.glyph && !btn.fa }>{ btn.text }</span>
       <span if={ btn.glyph } class="glyphicon glyphicon-{ btn.glyph }"></span>
       <span if={ btn.fa } class="fa fa-{ btn.fa }"></span>
