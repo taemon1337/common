@@ -161,7 +161,7 @@
                 return ""
               }
             },
-            selected: function(a) {
+            onselect: function(a) {
               self.available.forEach(function(cmpt) {
                 if(cmpt.name === a.value) {
                   a.record[a.field] = cmpt.tag
@@ -178,7 +178,7 @@
           name: "select-option",
           options: {
             records: self.names,
-            selected: function(a) {
+            onselect: function(a) {
               a.record[a.field] = a.value
             },
             option_text: "name",

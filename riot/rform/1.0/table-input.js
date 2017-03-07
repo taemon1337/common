@@ -52,11 +52,22 @@
       }
     }
 
+    var parseHeaders = function(o) {
+      if(self.value && self.value.length) {
+        var res = []
+        Object.keys(self.value[0]).map(function(h) { res.push({ field: h }) })
+        return res
+      } else if(o.headers) {
+        return o.headers
+      } else {
+        return []
+      }
+    }
+
     self.record = opts.record
     self.field = opts.field
     self.value = opts.parse ? opts.parse(opts) : parse(opts)
-
-    self.headers = opts.headers || []
+    self.headers = opts.parseHeaders ? opts.parseHeaders(opts) : parseHeaders(opts)
 
     self.changed = function(e) {
       if(e.item.header) {
