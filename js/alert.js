@@ -1,5 +1,6 @@
 (function($) {
   function Alert(opts) {
+    $(".alert").remove();
     var color = opts.color || "info";
     var css = opts.css || { "position": "fixed", 'z-index': 9999, 'right': '10px' };
     var parent = opts.parent || "#main"
